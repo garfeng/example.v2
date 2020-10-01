@@ -1,6 +1,7 @@
 package cow
 
 import (
+	"fmt"
 	"sync"
 	"testing"
 )
@@ -59,5 +60,40 @@ func testGet(array ConcurrentArray, maxI uint32, t *testing.T) {
 			t.Fatalf("Incorect element: %d! (index: %d, expect max: %d)",
 				elem, i, intMax)
 		}
+	}
+}
+
+func testGetAndSetOnce(t *testing.T) {
+	arr := NewConcurrentArray(100)
+	wg := sync.WaitGroup{}
+
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func(idx int) {
+			defer wg.Done()
+
+			err := arr.Set(uint32(idx), idx)
+			if err != nil {
+				fmt.Println(err.Error())
+			}
+		}(i)
+	}
+
+	wg.Wait()
+
+	for i := 0; i < 100; i++ {
+		item, err := arr.Get(uint32(i))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if item != i {
+			t.Fatalf("fail to set arr[%d] = %d", i, item)
+		}
+	}
+}
+
+func TestGetAndSet(t *testing.T) {
+	for i := 0; i < 100; i++ {
+		testGetAndSetOnce(t)
 	}
 }
