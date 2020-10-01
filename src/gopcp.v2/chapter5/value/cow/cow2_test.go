@@ -74,7 +74,7 @@ func testSetAndGet2(array ConcurrentArray2, maxI uint32, t *testing.T) {
 	//TODO
 }
 
-func testSetANdGet2Once(t *testing.T) {
+func testSetAndGet2Once(t *testing.T) {
 	arr := NewConcurrentArray2(100)
 	wg := sync.WaitGroup{}
 
@@ -105,6 +105,6 @@ func testSetANdGet2Once(t *testing.T) {
 
 func TestSetAndGet2(t *testing.T) {
 	for i := 0; i < 100; i++ {
-		testSetANdGet2Once(t)
+		testSetAndGet2Once(t)
 	}
 }

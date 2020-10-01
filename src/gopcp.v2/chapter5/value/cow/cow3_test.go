@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func testSetANdGet3Once(t *testing.T) {
+func testSetAndGet3Once(t *testing.T) {
 	arr := NewConcurrentArray3(100)
 	wg := sync.WaitGroup{}
 
@@ -37,6 +37,6 @@ func testSetANdGet3Once(t *testing.T) {
 
 func TestSetAndGet3(t *testing.T) {
 	for i := 0; i < 100; i++ {
-		testSetANdGet3Once(t)
+		testSetAndGet3Once(t)
 	}
 }
