@@ -6,11 +6,11 @@ import (
 	"testing"
 )
 
-func testSetAndGet3Once(t *testing.T) {
-	arr := NewConcurrentArray3(100)
+func testSetAndGet3Once(n int, t *testing.T) {
+	arr := NewConcurrentArray3(uint32(n))
 	wg := sync.WaitGroup{}
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < n; i++ {
 		wg.Add(1)
 		go func(idx int) {
 			defer wg.Done()
@@ -24,7 +24,7 @@ func testSetAndGet3Once(t *testing.T) {
 
 	wg.Wait()
 
-	for i := 0; i < 100; i++ {
+	for i := 0; i < n; i++ {
 		item, err := arr.Get(uint32(i))
 		if err != nil {
 			t.Fatal(err)
@@ -36,7 +36,9 @@ func testSetAndGet3Once(t *testing.T) {
 }
 
 func TestSetAndGet3(t *testing.T) {
-	for i := 0; i < 100; i++ {
-		testSetAndGet3Once(t)
+	// 1000 次测试
+	for i := 0; i < 1000; i++ {
+		// 10000 并发
+		testSetAndGet3Once(10000, t)
 	}
 }
